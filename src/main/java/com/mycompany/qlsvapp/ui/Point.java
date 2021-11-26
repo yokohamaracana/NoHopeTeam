@@ -28,6 +28,8 @@ public class Point extends javax.swing.JPanel {
         initComponents();
         
 	initTable();
+	
+	loadBangDiem();
     }
     
     private void initTable(){
@@ -35,6 +37,24 @@ public class Point extends javax.swing.JPanel {
         tblModel.setColumnIdentifiers(new String[]{
             "Mã sinh viên", "Toán", "Tiếng Anh", "Tin Học", "Triết học", "Điểm TB"});
         tblPoint.setModel(tblModel);
+    }
+    
+    private void loadBangDiem(){
+        try {
+            BangDiemDao dao = new BangDiemDao();
+            List<BangDiem> list = dao.findTop(4);
+            tblModel.setRowCount(0);
+            for(BangDiem bd: list){
+                tblModel.addRow(new Object[]{
+                    bd.getMaSinhVien(), bd.getToan(), bd.getNgoaiNgu(), bd.getTinHoc(),bd.getTrietHoc(),
+                    (bd.getToan() + bd.getNgoaiNgu() + bd.getTinHoc() + bd.getTrietHoc())/4
+                });
+            }
+            tblModel.fireTableDataChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
