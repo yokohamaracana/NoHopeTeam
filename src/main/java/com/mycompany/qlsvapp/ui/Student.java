@@ -404,7 +404,39 @@ public class Student extends javax.swing.JPanel {
             MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
         }
     }//GEN-LAST:event_btnSaveActionPerformed
-
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        StringBuilder sb = new StringBuilder();
+        DataValidator.validateEmpty(txtStudentId, sb, "Mã sinh viên không được để trống");
+        DataValidator.validateEmpty(txtName, sb, "Tên sinh viên không được để trống");
+        if (sb.length()>0) {
+            MessageDialog.showErrorDialog(parentForm, sb.toString(), "Lỗi");
+            return;
+        }
+        if (MessageDialog.showConfirmDialog(parentForm, 
+                "Bạn có muốn cập nhật sinh viên không ?", "Hỏi")== JOptionPane.NO_OPTION){
+            return;
+        }
+        try {
+            SinhVien sv = new SinhVien();
+            sv.setMaSinhVien(txtStudentId.getText());
+            sv.setHoTen(txtName.getText());
+            sv.setEmail(txtEmail.getText());
+            sv.setSoDT(txtPhone.getText());
+            sv.setDiaChi(txtAddress.getText());
+            sv.setGioiTinh(rdbMaie.isSelected()?1: 0);
+            sv.setHinh(personalImage);
+            SinhVienDao dao = new SinhVienDao();
+            if (dao.update(sv)) {
+                MessageDialog.showMessageDialog(parentForm, "Sinh viên đã được cập nhật", "Thông báo");
+                loadDataToTable();
+            }else{
+                MessageDialog.showErrorDialog(parentForm, "Sinh viên chưa được cập nhật", "Cảnh báo");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         StringBuilder sb = new StringBuilder();
         DataValidator.validateEmpty(txtStudentId, sb, "Mã sinh viên không được để trống");
