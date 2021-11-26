@@ -431,7 +431,38 @@ public class Student extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-
+    private void tblStudentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblStudentMouseClicked
+        try {
+            int row = tblStudent.getSelectedRow();
+            
+            if(row >= 0){
+                String id = (String) tblStudent.getValueAt(row, 0);
+                SinhVienDao dao = new SinhVienDao();
+                SinhVien sv = dao.findById(id);
+                if(sv != null){
+                    txtStudentId.setText(sv.getMaSinhVien());
+                    txtName.setText(sv.getHoTen());
+                    txtEmail.setText(sv.getEmail());
+                    txtPhone.setText(sv.getSoDT());
+                    txtAddress.setText(sv.getDiaChi());
+                    rdbMaie.setSelected(sv.getGioiTinh()==1?true:false);
+                    if (sv.getHinh() != null) {
+                        Image img = ImageHelper.createImageFromByteArray(sv.getHinh(), "jpg");
+                        lblImage.setIcon(new ImageIcon(img));
+                        personalImage = sv.getHinh();
+                    }else{
+                        personalImage = sv.getHinh();
+                        ImageIcon icon = new ImageIcon(getClass().getResource(
+                                "/com/mycompany/qlsvapp/icons/10207-man-student-light-skin-tone-icon-64.png"));
+                        lblImage.setIcon(icon);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
+        }
+    }//GEN-LAST:event_tblStudentMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBrowse;
