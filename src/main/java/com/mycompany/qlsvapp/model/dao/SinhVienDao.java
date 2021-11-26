@@ -50,6 +50,32 @@ public class SinhVienDao {
             return pstmt.executeUpdate()>0;
         }
     }
+    public boolean update(SinhVien sv) throws Exception{
+        String sql = "UPDATE dbo.SinhVien"+ 
+                " SET HoTen = ?,Email = ?,SoDT = ?,GioiTinh = ?,DiaChi = ?,Hinh = ?"
+                + " where MaSinhVien = ?";
+        try (
+            Connection con = Database.openConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql);
+        ){
+            pstmt.setString(7, sv.getMaSinhVien());
+            pstmt.setString(1, sv.getHoTen());
+            pstmt.setString(2, sv.getEmail());
+            pstmt.setString(3, sv.getSoDT());
+            pstmt.setInt(4, sv.getGioiTinh());
+            pstmt.setString(5, sv.getDiaChi());
+            
+            if (sv.getHinh() != null) {
+                Blob hinh = new SerialBlob(sv.getHinh());
+                pstmt.setBlob(6, hinh);
+            }
+            else{
+                Blob hinh = null;
+                pstmt.setBlob(6, hinh);
+            }
+            return pstmt.executeUpdate()>0;
+        }
+    }
      public boolean delete(String maSinhVien) throws Exception{
         String sql = "delete from sinhvien"
                 + " where MaSinhVien = ?";
