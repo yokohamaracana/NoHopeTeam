@@ -465,6 +465,10 @@ public class Point extends javax.swing.JPanel {
             MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
         }
     }//GEN-LAST:event_btnSaveActionPerformed
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        btnSaveActionPerformed(evt);
+        loadBangDiem();
+    }//GEN-LAST:event_btnUpdateActionPerformed
     private void txtStudentIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtStudentIdFocusLost
         try {
             SinhVienDao dao = new SinhVienDao();
