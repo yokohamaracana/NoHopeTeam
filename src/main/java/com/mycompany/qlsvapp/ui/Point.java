@@ -27,9 +27,15 @@ public class Point extends javax.swing.JPanel {
     public Point() {
         initComponents();
         
+	initTable();
     }
     
-    
+    private void initTable(){
+        tblModel = new DefaultTableModel();
+        tblModel.setColumnIdentifiers(new String[]{
+            "Mã sinh viên", "Toán", "Tiếng Anh", "Tin Học", "Triết học", "Điểm TB"});
+        tblPoint.setModel(tblModel);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
