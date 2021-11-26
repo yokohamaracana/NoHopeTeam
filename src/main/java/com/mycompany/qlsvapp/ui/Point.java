@@ -492,6 +492,29 @@ public class Point extends javax.swing.JPanel {
         String st = String.format("%.2f", avg);
         lblPoint.setText(st);
     }//GEN-LAST:event_txtMathFocusLost
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        try {
+            BangDiemDao dao = new BangDiemDao();
+            BangDiem bd = dao.findByMaSinhVien(txtStudentIdSearch.getText());
+            
+            if(bd != null){
+                txtStudentId.setText(bd.getMaSinhVien());
+                txtMath.setText(String.format("%.2f", bd.getToan()));
+                txtLanguage.setText(String.format("%.2f", bd.getNgoaiNgu()));
+                txtTinHoc.setText(String.format("%.2f", bd.getTinHoc()));
+                txtTrietHoc.setText(String.format("%.2f", bd.getTrietHoc()));
+                
+                txtStudentIdFocusLost(null);
+                txtMathFocusLost(null);
+            }else{
+                MessageDialog.showMessageDialog(parentForm, "Không tìm thấy mã sinh viên", "Thông báo");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
             if(txtStudentId.getText().equals("")){
