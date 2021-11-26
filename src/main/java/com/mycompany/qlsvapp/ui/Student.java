@@ -343,7 +343,17 @@ public class Student extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameActionPerformed
 
-    
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        txtStudentId.setText("");
+        txtName.setText("");
+        txtEmail.setText("");
+        txtPhone.setText("");
+        txtAddress.setText("");
+        personalImage = null;
+        ImageIcon icon = new ImageIcon(getClass().getResource("/com/mycompany/qlsvapp/icons/10207-man-student-light-skin-tone-icon-64.png"));
+        lblImage.setIcon(icon);
+    }//GEN-LAST:event_btnNewActionPerformed
+
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         StringBuilder sb = new StringBuilder();
         DataValidator.validateEmpty(txtStudentId, sb, "Mã sinh viên không được để trống");
