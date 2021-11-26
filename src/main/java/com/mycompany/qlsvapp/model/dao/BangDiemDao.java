@@ -57,6 +57,23 @@ public class BangDiemDao {
         try (
             Connection con = Database.openConnection();
             PreparedStatement pstmt = con.prepareStatement(sql);
+        ){s
+            try(ResultSet rs = pstmt.executeQuery();){
+                List<BangDiem> list = new ArrayList<>();
+                while(rs.next()) {
+                    BangDiem bd = creatBangDiem(rs);
+                    list.add(bd);
+                }
+                return list;
+            }
+        }
+    }
+    public List<BangDiem> findTop(int top) throws Exception{
+        String sql = "select top "+ top +" *, (Toan + NgoaiNgu + TinHoc + TrietHoc)/4 as DTB" +
+                    " from BangDiem order by DTB desc";
+        try (
+            Connection con = Database.openConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql);
         ){
             try(ResultSet rs = pstmt.executeQuery();){
                 List<BangDiem> list = new ArrayList<>();
@@ -67,6 +84,17 @@ public class BangDiemDao {
                 return list;
             }
         }
+    }
+
+    private BangDiem creatBangDiem(final ResultSet rs) throws SQLException {
+        BangDiem bd = new BangDiem();
+        bd.setMa(rs.getInt("Ma"));
+        bd.setMaSinhVien(rs.getString("maSinhVien"));
+        bd.setToan(rs.getFloat("Toan"));
+        bd.setNgoaiNgu(rs.getFloat("NgoaiNgu"));
+        bd.setTinHoc(rs.getFloat("TinHoc"));
+        bd.setTrietHoc(rs.getFloat("TrietHoc"));
+        return bd;
     }
     
 }
