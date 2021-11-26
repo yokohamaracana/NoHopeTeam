@@ -50,5 +50,16 @@ public class SinhVienDao {
             return pstmt.executeUpdate()>0;
         }
     }
-    
+     public boolean delete(String maSinhVien) throws Exception{
+        String sql = "delete from sinhvien"
+                + " where MaSinhVien = ?";
+        try (
+            Connection con = Database.openConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql);
+        ){
+            pstmt.setString(1, maSinhVien);
+           
+            return pstmt.executeUpdate()>0;
+        }
+    }
 }
