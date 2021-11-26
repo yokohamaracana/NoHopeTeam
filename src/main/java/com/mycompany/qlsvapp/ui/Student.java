@@ -31,9 +31,15 @@ public class Student extends javax.swing.JPanel {
      */
     public Student() {
         initComponents();
+	initTable();
        
     }
     
+    private void initTable(){
+        tblModel = new DefaultTableModel();
+        tblModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ tên", "Email", "Số ĐT", "Giới tính", "Địa chỉ"});
+        tblStudent.setModel(tblModel);
+    }
     
    
     /**
