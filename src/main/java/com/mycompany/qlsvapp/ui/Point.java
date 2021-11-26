@@ -476,6 +476,22 @@ public class Point extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }//GEN-LAST:event_txtStudentIdFocusLost
+    private void txtMathFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMathFocusLost
+        if(txtMath.getText().equals("")||
+                txtLanguage.getText().equals("")||
+                txtTinHoc.getText().equals("")||
+                txtTrietHoc.getText().equals("")){
+            return;
+        }
+        float to = Float.parseFloat(txtMath.getText());
+        float ta = Float.parseFloat(txtLanguage.getText());
+        float th = Float.parseFloat(txtTinHoc.getText());
+        float trh = Float.parseFloat(txtTrietHoc.getText());
+        
+        float avg = (to + ta + th + trh)/4;
+        String st = String.format("%.2f", avg);
+        lblPoint.setText(st);
+    }//GEN-LAST:event_txtMathFocusLost
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
             if(txtStudentId.getText().equals("")){
