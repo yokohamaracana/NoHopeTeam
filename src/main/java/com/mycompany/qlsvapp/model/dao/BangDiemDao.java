@@ -38,5 +38,19 @@ public class BangDiemDao {
             
         }
     }
+ 	public boolean deleteMaSinhVien(String maSinhVien) throws Exception{
+        
+        String sql = "delete from bangdiem"+
+                " Where [MaSinhVien] = ?";
+        try (
+            Connection con = Database.openConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql);
+        ){
+            pstmt.setString(1,maSinhVien);
+            
+            return pstmt.executeUpdate()>0;
+            
+        }
+    }
     
 }
