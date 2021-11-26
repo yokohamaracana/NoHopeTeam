@@ -391,7 +391,45 @@ public class Point extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStudentIdActionPerformed
 
-    
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        StringBuilder sb = new StringBuilder();
+        DataValidator.validateEmpty(txtStudentId, sb, "Mã sinh viên không được để trống");
+        DataValidator.validateEmpty(txtLanguage, sb, "Điểm Tiếng Anh sinh viên không được để trống");
+        if (sb.length()>0) {
+            MessageDialog.showErrorDialog(parentForm, sb.toString(), "Lỗi");
+            return;
+        }
+        try {
+            BangDiem bd = new BangDiem();
+            bd.setMaSinhVien(txtStudentId.getText());
+            bd.setToan(Float.parseFloat(txtMath.getText()));
+            bd.setNgoaiNgu(Float.parseFloat(txtLanguage.getText()));
+            bd.setTinHoc(Float.parseFloat(txtTinHoc.getText()));
+            bd.setTrietHoc(Float.parseFloat(txtTrietHoc.getText()));
+            
+            BangDiemDao dao = new BangDiemDao();
+            if(dao.findByMaSinhVien(txtStudentId.getText()) != null){
+                if(MessageDialog.showConfirmDialog(parentForm, "Bạn có muốn cập nhật không", "Hỏi")== JOptionPane.NO_OPTION){
+                    return;
+                }
+                if (dao.update(bd)) {
+                MessageDialog.showMessageDialog(parentForm, "Bảng điểm đã được cập nhật", "Thông báo");
+                }else{
+                MessageDialog.showErrorDialog(parentForm, "Không thể cập nhật bảng điểm", "Cảnh báo");
+                } 
+            }else{
+                if (dao.insert(bd)) {
+                MessageDialog.showMessageDialog(parentForm, "Bảng điểm đã được lưu", "Thông báo");
+                }else{
+                MessageDialog.showErrorDialog(parentForm, "Bảng điểm chưa được lưu", "Cảnh báo");
+                }
+            }
+            loadBangDiem();
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
