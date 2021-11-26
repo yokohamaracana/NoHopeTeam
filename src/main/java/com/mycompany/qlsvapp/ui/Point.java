@@ -445,7 +445,32 @@ public class Point extends javax.swing.JPanel {
             MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
         }
     }//GEN-LAST:event_btnSaveActionPerformed
-
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            if(txtStudentId.getText().equals("")){
+                MessageDialog.showMessageDialog(parentForm, "Mã sinh viên cần phải nhập", "Lỗi");
+                return; 
+            }
+            BangDiemDao dao = new BangDiemDao();
+            BangDiem bd = dao.findByMaSinhVien(txtStudentId.getText());
+            if(bd == null){
+                MessageDialog.showMessageDialog(parentForm, "Mã sinh viên không tồn tại", "Lỗi");
+                return;
+            }
+            if(MessageDialog.showConfirmDialog(parentForm, "Bạn có muốn xóa điểm của sinh viên không", "Hỏi") == JOptionPane.NO_OPTION) {
+                return;
+            }
+            if(dao.deleteMaSinhVien(txtStudentId.getText())) {
+                MessageDialog.showMessageDialog(parentForm, "Điểm của sinh viên đã được xóa", "Thông báo");
+            }else{
+                MessageDialog.showMessageDialog(parentForm, "Điểm của sinh viên không thể xóa được", "Thông báo");
+            }
+            loadBangDiem();
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
