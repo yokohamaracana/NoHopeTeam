@@ -379,7 +379,32 @@ public class Student extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
-    
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        StringBuilder sb = new StringBuilder();
+        DataValidator.validateEmpty(txtStudentId, sb, "Mã sinh viên không được để trống");
+        if (sb.length()>0) {
+            MessageDialog.showErrorDialog(parentForm, sb.toString(), "Lỗi");
+            return;
+        }
+        if (MessageDialog.showConfirmDialog(parentForm, 
+                "Bạn có muốn xóa sinh viên không ?", "Hỏi")== JOptionPane.NO_OPTION){
+            return;
+        }
+        try {
+            SinhVienDao dao = new SinhVienDao();
+            if (dao.delete(txtStudentId.getText())) {
+                MessageDialog.showMessageDialog(parentForm, "Sinh viên đã được xóa", "Thông báo");
+                btnNewActionPerformed(evt);
+                loadDataToTable();
+            }else{
+                MessageDialog.showErrorDialog(parentForm, "Sinh viên chưa được xóa", "Cảnh báo");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
