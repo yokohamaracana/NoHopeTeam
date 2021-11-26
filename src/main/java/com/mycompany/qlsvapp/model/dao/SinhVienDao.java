@@ -62,4 +62,20 @@ public class SinhVienDao {
             return pstmt.executeUpdate()>0;
         }
     }
+    public List< SinhVien> findAll() throws Exception{
+        String sql = "select * from sinhvien";
+        try (
+            Connection con = Database.openConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql);
+        ){
+           try(ResultSet rs = pstmt.executeQuery();){
+               List<SinhVien> list = new ArrayList<>();
+               while (rs.next()) {
+                   SinhVien sv = createSinhVien(rs);
+                   list.add(sv);
+               }
+               return list;
+           }
+        }
+    }
 }
