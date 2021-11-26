@@ -32,7 +32,7 @@ public class Student extends javax.swing.JPanel {
     public Student() {
         initComponents();
 	initTable();
-       
+       	loadDataToTable();
     }
     
     private void initTable(){
@@ -41,7 +41,23 @@ public class Student extends javax.swing.JPanel {
         tblStudent.setModel(tblModel);
     }
     
-   
+    private void loadDataToTable(){
+        try {
+            SinhVienDao dao = new SinhVienDao();
+            List<SinhVien> list = dao.findAll();
+            tblModel.setRowCount(0);
+            for(SinhVien it: list){
+                tblModel.addRow(new Object[]{
+                    it.getMaSinhVien(), it.getHoTen(), it.getEmail(), it.getSoDT(),
+                    it.getGioiTinh()==1?"Nam" : "Nữ", it.getDiaChi()
+                });
+            }
+            tblModel.fireTableDataChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
