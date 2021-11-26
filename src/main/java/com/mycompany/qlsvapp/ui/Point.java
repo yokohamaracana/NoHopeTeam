@@ -397,6 +397,15 @@ public class Point extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStudentIdActionPerformed
 
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        txtStudentId.setText("");
+        txtMath.setText("");
+        txtName.setText("");
+        txtTinHoc.setText("");
+        txtTrietHoc.setText("");
+        txtLanguage.setText("");
+    }//GEN-LAST:event_btnNewActionPerformed
+
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         StringBuilder sb = new StringBuilder();
         DataValidator.validateEmpty(txtStudentId, sb, "Mã sinh viên không được để trống");
