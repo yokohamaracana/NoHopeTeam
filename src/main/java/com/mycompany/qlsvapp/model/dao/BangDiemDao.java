@@ -38,6 +38,25 @@ public class BangDiemDao {
             
         }
     }
+    public boolean update(BangDiem bd) throws Exception{
+        
+        String sql = "UPDATE [dbo].[BangDiem]" +
+                " SET [Toan] = ?,[NgoaiNgu] = ?,[TinHoc] = ?,[TrietHoc] = ?" +
+                " WHERE [MaSinhVien] = ?";
+        try (
+            Connection con = Database.openConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql);
+        ){
+            pstmt.setString(5, bd.getMaSinhVien());
+            pstmt.setFloat(1, bd.getToan());
+            pstmt.setFloat(2, bd.getNgoaiNgu());
+            pstmt.setFloat(3, bd.getTinHoc());
+            pstmt.setFloat(4, bd.getTrietHoc());
+            
+            return pstmt.executeUpdate()>0;
+            
+        }
+    }
  	public boolean deleteMaSinhVien(String maSinhVien) throws Exception{
         
         String sql = "delete from bangdiem"+
