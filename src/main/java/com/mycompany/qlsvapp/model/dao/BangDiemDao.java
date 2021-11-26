@@ -52,5 +52,21 @@ public class BangDiemDao {
             
         }
     }
+    public List<BangDiem> findAll() throws Exception{
+        String sql = "select * from bangdiem";
+        try (
+            Connection con = Database.openConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql);
+        ){
+            try(ResultSet rs = pstmt.executeQuery();){
+                List<BangDiem> list = new ArrayList<>();
+                while(rs.next()) {
+                    BangDiem bd = creatBangDiem(rs);
+                    list.add(bd);
+                }
+                return list;
+            }
+        }
+    }
     
 }
