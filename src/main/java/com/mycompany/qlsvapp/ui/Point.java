@@ -465,6 +465,17 @@ public class Point extends javax.swing.JPanel {
             MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
         }
     }//GEN-LAST:event_btnSaveActionPerformed
+    private void txtStudentIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtStudentIdFocusLost
+        try {
+            SinhVienDao dao = new SinhVienDao();
+            SinhVien sv = dao.findById(txtStudentId.getText());
+            if(sv != null){
+                txtName.setText(sv.getHoTen());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_txtStudentIdFocusLost
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
             if(txtStudentId.getText().equals("")){
