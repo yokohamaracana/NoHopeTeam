@@ -62,6 +62,36 @@ public class SinhVienDao {
             return pstmt.executeUpdate()>0;
         }
     }
+    public SinhVien findById(String maSinhVien) throws Exception{
+        String sql = "select * from sinhvien where maSinhVien =?";
+        try (
+            Connection con = Database.openConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql);
+        ){
+            pstmt.setString(1, maSinhVien);
+           try(ResultSet rs = pstmt.executeQuery();){
+               if (rs.next()) {
+                   SinhVien sv = createSinhVien(rs);
+                   return sv;
+               }
+           }
+            return null;
+        }
+    }
+
+    private SinhVien createSinhVien(final ResultSet rs) throws SQLException {
+        SinhVien sv = new SinhVien();
+        sv.setMaSinhVien(rs.getString("masinhvien"));
+        sv.setHoTen(rs.getString("hoten"));
+        sv.setEmail(rs.getString("email"));
+        sv.setSoDT(rs.getString("soDT"));
+        sv.setDiaChi(rs.getString("diachi"));
+        sv.setGioiTinh(rs.getInt("gioitinh"));
+        Blob blob = rs.getBlob("hinh");
+        if (blob != null) 
+            sv.setHinh(blob.getBytes(1, (int) blob.length()));
+        return sv;
+    }
     public List< SinhVien> findAll() throws Exception{
         String sql = "select * from sinhvien";
         try (
