@@ -338,7 +338,40 @@ public class Student extends javax.swing.JPanel {
     }//GEN-LAST:event_txtNameActionPerformed
 
     
-    }//GEN-LAST:event_btnNewActionPerformed
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        StringBuilder sb = new StringBuilder();
+        DataValidator.validateEmpty(txtStudentId, sb, "Mã sinh viên không được để trống");
+        DataValidator.validateEmpty(txtName, sb, "Tên sinh viên không được để trống");
+        if (sb.length()>0) {
+            MessageDialog.showErrorDialog(parentForm, sb.toString(), "Lỗi");
+            return;
+        }
+        try {
+            SinhVien sv = new SinhVien();
+            sv.setMaSinhVien(txtStudentId.getText());
+            sv.setHoTen(txtName.getText());
+            sv.setEmail(txtEmail.getText());
+            sv.setSoDT(txtPhone.getText());
+            sv.setDiaChi(txtAddress.getText());
+            sv.setGioiTinh(rdbMaie.isSelected()?1: 0);
+            sv.setHinh(personalImage);
+            SinhVienDao dao = new SinhVienDao();
+            if (dao.findById(txtStudentId.getText()) != null) {
+                MessageDialog.showErrorDialog(parentForm, "Trùng mã sinh viên", "Cảnh báo");
+            }else{
+                if (dao.insert(sv)) {
+                MessageDialog.showMessageDialog(parentForm, "Sinh viên đã được lưu", "Thông báo");
+                loadDataToTable();
+            }else{
+                MessageDialog.showErrorDialog(parentForm, "Sinh viên chưa được lưu", "Cảnh báo");
+            }
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
 
     
 
