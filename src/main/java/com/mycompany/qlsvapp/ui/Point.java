@@ -1,8 +1,6 @@
-﻿/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.mycompany.qlsvapp.ui;
+
+
 
 import com.mycompany.qlsvapp.helper.DataValidator;
 import com.mycompany.qlsvapp.helper.MessageDialog;
@@ -403,7 +401,7 @@ public class Point extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -500,7 +498,7 @@ public class Point extends javax.swing.JPanel {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         try {
             BangDiemDao dao = new BangDiemDao();
-            BangDiem bd = dao.findByMaSinhVien(txtStudentIdSearch.getText());
+            BangDiem bd = (BangDiem) dao.findByMaSinhVien(txtStudentIdSearch.getText());
             
             if(bd != null){
                 txtStudentId.setText(bd.getMaSinhVien());
@@ -526,7 +524,7 @@ public class Point extends javax.swing.JPanel {
                 return; 
             }
             BangDiemDao dao = new BangDiemDao();
-            BangDiem bd = dao.findByMaSinhVien(txtStudentId.getText());
+            BangDiem bd = (BangDiem) dao.findByMaSinhVien(txtStudentId.getText());
             if(bd == null){
                 MessageDialog.showMessageDialog(parentForm, "Mã sinh viên không tồn tại", "Lỗi");
                 return;

@@ -76,7 +76,7 @@ public class BangDiemDao {
         try (
             Connection con = Database.openConnection();
             PreparedStatement pstmt = con.prepareStatement(sql);
-        ){s
+        ){
             try(ResultSet rs = pstmt.executeQuery();){
                 List<BangDiem> list = new ArrayList<>();
                 while(rs.next()) {
@@ -114,6 +114,25 @@ public class BangDiemDao {
         bd.setTinHoc(rs.getFloat("TinHoc"));
         bd.setTrietHoc(rs.getFloat("TrietHoc"));
         return bd;
+    }
+
+    public BangDiem findByMaSinhVien(String maSinhVien) throws Exception{
+        
+        String sql = "select * from bangdiem where [MaSinhVien] = ?";
+        try (
+            Connection con = Database.openConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql);
+        ){
+            pstmt.setString(1,maSinhVien);
+            
+            try(ResultSet rs = pstmt.executeQuery();){
+                if(rs.next()) {
+                    BangDiem bd = creatBangDiem(rs);
+                    return bd;
+                }
+            }
+            return null;
+        }
     }
     
 }
