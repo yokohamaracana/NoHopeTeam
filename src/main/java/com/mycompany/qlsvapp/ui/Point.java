@@ -2,13 +2,23 @@ package com.mycompany.qlsvapp.ui;
 
 
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.mycompany.qlsvapp.helper.DataValidator;
 import com.mycompany.qlsvapp.helper.MessageDialog;
 import com.mycompany.qlsvapp.model.BangDiem;
 import com.mycompany.qlsvapp.model.SinhVien;
 import com.mycompany.qlsvapp.model.dao.BangDiemDao;
 import com.mycompany.qlsvapp.model.dao.SinhVienDao;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -98,6 +108,8 @@ public class Point extends javax.swing.JPanel {
         btnDelete = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
+        INBANGDIEM = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         jLabel1.setText("jLabel1");
 
@@ -330,30 +342,46 @@ public class Point extends javax.swing.JPanel {
             }
         });
 
+        INBANGDIEM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/qlsvapp/icons/open-file-icon-16.png"))); // NOI18N
+        INBANGDIEM.setText("Xuất PDF");
+        INBANGDIEM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                INBANGDIEMActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("jButton1");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnUpdate)
-                    .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnUpdate)
+                        .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(INBANGDIEM))
                 .addGap(0, 18, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnNew)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSave)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDelete)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnUpdate)
-                .addGap(23, 23, 23))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(INBANGDIEM)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addGap(10, 10, 10))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -401,7 +429,7 @@ public class Point extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -544,12 +572,73 @@ public class Point extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void INBANGDIEMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_INBANGDIEMActionPerformed
+        String path = "";
+        JFileChooser j =  new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int x = j.showSaveDialog(this);
+        
+        if(x == JFileChooser.APPROVE_OPTION){
+            path = j.getSelectedFile().getPath();
+        }
+        Document doc = new Document();
+        
+     
+        try {
+            PdfWriter.getInstance(doc, new FileOutputStream(path+"Ponit.pdf"));
+            
+            doc.open();
+            Paragraph paragraph1 = new Paragraph("Ponit");
+            paragraph1.setIndentationLeft(80);
+            paragraph1.setIndentationRight(80);
+            paragraph1.setAlignment(com.itextpdf.text.Element.ALIGN_CENTER);
+            paragraph1.setSpacingAfter(15);
+            doc.add(paragraph1);
+            PdfPTable tbl = new PdfPTable(6);
+            
+            tbl.addCell("ID");
+            tbl.addCell("Math");
+            tbl.addCell("English");
+            tbl.addCell("Informatics");
+            tbl.addCell("Philosophy");
+            tbl.addCell("TB");
+            
+            for (int i = 0; i < tblPoint.getRowCount(); i++) {
+                String ID = tblPoint.getValueAt(i, 0).toString();
+                String Name = tblPoint.getValueAt(i, 1).toString();
+                String Email = tblPoint.getValueAt(i, 2).toString();
+                String Phone = tblPoint.getValueAt(i, 3).toString();
+                String GT = tblPoint.getValueAt(i, 4).toString();
+                String Diachi = tblPoint.getValueAt(i, 5).toString();
+                
+                tbl.addCell(ID);
+                tbl.addCell(Name);
+                tbl.addCell(Email);
+                tbl.addCell(Phone);
+                tbl.addCell(GT);
+                tbl.addCell(Diachi);
+                
+            }
+            
+            doc.add(tbl);
+            
+            JOptionPane.showMessageDialog(null, "Xuất thành công", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+        } catch (FileNotFoundException | DocumentException ex) {
+            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
+    
+        doc.close();
+    }//GEN-LAST:event_INBANGDIEMActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton INBANGDIEM;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

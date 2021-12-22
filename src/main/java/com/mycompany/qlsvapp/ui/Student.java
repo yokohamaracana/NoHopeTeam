@@ -1,6 +1,12 @@
 package com.mycompany.qlsvapp.ui;
 
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.mycompany.qlsvapp.helper.DataValidator;
 import com.mycompany.qlsvapp.helper.ImageHelper;
 import com.mycompany.qlsvapp.helper.MessageDialog;
@@ -8,7 +14,11 @@ import com.mycompany.qlsvapp.model.SinhVien;
 import com.mycompany.qlsvapp.model.dao.SinhVienDao;
 import java.awt.Image;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -94,6 +104,7 @@ public class Student extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
+        INDSSV = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 0, 0));
@@ -213,6 +224,14 @@ public class Student extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(tblStudent);
 
+        INDSSV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/qlsvapp/icons/open-file-icon-16.png"))); // NOI18N
+        INDSSV.setText("Xuất PDF");
+        INDSSV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                INDSSVActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -236,7 +255,9 @@ public class Student extends javax.swing.JPanel {
                                 .addGap(37, 37, 37)
                                 .addComponent(btnUpdate)
                                 .addGap(31, 31, 31)
-                                .addComponent(btnDelete))
+                                .addComponent(btnDelete)
+                                .addGap(37, 37, 37)
+                                .addComponent(INDSSV))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -269,7 +290,7 @@ public class Student extends javax.swing.JPanel {
                                                     .addComponent(txtPhone))))))
                                 .addGap(22, 22, 22)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(99, Short.MAX_VALUE))
+                        .addContainerGap(37, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane2)
                         .addGap(10, 10, 10))
@@ -339,7 +360,8 @@ public class Student extends javax.swing.JPanel {
                             .addComponent(btnNew)
                             .addComponent(btnSave)
                             .addComponent(btnUpdate)
-                            .addComponent(btnDelete))))
+                            .addComponent(btnDelete)
+                            .addComponent(INDSSV))))
                 .addGap(16, 16, 16)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -525,7 +547,67 @@ public class Student extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnBrowseActionPerformed
 
+    private void INDSSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_INDSSVActionPerformed
+        String path = "";
+        JFileChooser j =  new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int x = j.showSaveDialog(this);
+        
+        if(x == JFileChooser.APPROVE_OPTION){
+            path = j.getSelectedFile().getPath();
+        }
+        Document doc = new Document();
+        
+     
+        try {
+            PdfWriter.getInstance(doc, new FileOutputStream(path+"SV.pdf"));
+            
+            doc.open();
+            Paragraph paragraph1 = new Paragraph("Danh sách Sinh Viên");
+            paragraph1.setIndentationLeft(80);
+            paragraph1.setIndentationRight(80);
+            paragraph1.setAlignment(Element.ALIGN_CENTER);
+            paragraph1.setSpacingAfter(15);
+            doc.add(paragraph1);
+            PdfPTable tbl = new PdfPTable(6);
+            
+            tbl.addCell("ID");
+            tbl.addCell("Name");
+            tbl.addCell("Email");
+            tbl.addCell("Phone");
+            tbl.addCell("Gender");
+            tbl.addCell("Address");
+            
+            for (int i = 0; i < tblStudent.getRowCount(); i++) {
+                String ID = tblStudent.getValueAt(i, 0).toString();
+                String Name = tblStudent.getValueAt(i, 1).toString();
+                String Email = tblStudent.getValueAt(i, 2).toString();
+                String Phone = tblStudent.getValueAt(i, 3).toString();
+                String GT = tblStudent.getValueAt(i, 4).toString();
+                String Diachi = tblStudent.getValueAt(i, 5).toString();
+                
+                tbl.addCell(ID);
+                tbl.addCell(Name);
+                tbl.addCell(Email);
+                tbl.addCell(Phone);
+                tbl.addCell(GT);
+                tbl.addCell(Diachi);
+                
+            }
+            
+            doc.add(tbl);
+            
+            JOptionPane.showMessageDialog(null, "Xuất thành công", "ALERT MESSAGE", JOptionPane.WARNING_MESSAGE);
+        } catch (FileNotFoundException | DocumentException ex) {
+            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
+    
+        doc.close();
+    }//GEN-LAST:event_INDSSVActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton INDSSV;
     private javax.swing.JButton btnBrowse;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnNew;
