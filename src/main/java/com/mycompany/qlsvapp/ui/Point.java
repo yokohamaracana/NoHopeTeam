@@ -308,6 +308,11 @@ public class Point extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblPoint.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPointMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblPoint);
 
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/qlsvapp/icons/Save-icon.png"))); // NOI18N
@@ -630,6 +635,30 @@ public class Point extends javax.swing.JPanel {
     
         doc.close();
     }//GEN-LAST:event_INBANGDIEMActionPerformed
+
+    private void tblPointMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPointMouseClicked
+        try {
+            int row = tblPoint.getSelectedRow();
+            
+            if (row >= 0) {
+                String id = (String) tblPoint.getValueAt(row, 0);
+                BangDiemDao dao = new BangDiemDao();
+                BangDiem bd = dao.findByMaSinhVien(id);
+            
+                if(bd != null){
+                    txtStudentId.setText(bd.getMaSinhVien());
+                    txtMath.setText(String.format("%.2f", bd.getToan()));
+                    txtLanguage.setText(String.format("%.2f", bd.getNgoaiNgu()));
+                    txtTinHoc.setText(String.format("%.2f", bd.getTinHoc()));
+                    txtTrietHoc.setText(String.format("%.2f", bd.getTrietHoc()));
+                
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
+        }
+    }//GEN-LAST:event_tblPointMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton INBANGDIEM;
