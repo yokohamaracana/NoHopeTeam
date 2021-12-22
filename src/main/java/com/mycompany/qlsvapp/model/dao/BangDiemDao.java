@@ -59,7 +59,7 @@ public class BangDiemDao {
     }
  	public boolean deleteMaSinhVien(String maSinhVien) throws Exception{
         
-        String sql = "delete from bangdiem"+
+        String sql = " delete from bangdiem"+
                 " Where [MaSinhVien] = ?";
         try (
             Connection con = Database.openConnection();

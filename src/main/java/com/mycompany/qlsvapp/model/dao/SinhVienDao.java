@@ -77,7 +77,7 @@ public class SinhVienDao {
         }
     }
      public boolean delete(String maSinhVien) throws Exception{
-        String sql = "delete from sinhvien"
+        String sql = " delete from sinhvien"
                 + " where MaSinhVien = ?";
         try (
             Connection con = Database.openConnection();
