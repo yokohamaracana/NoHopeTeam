@@ -5,8 +5,15 @@
 package com.mycompany.qlsvapp.ui;
 
 import com.mycompany.qlsvapp.helper.SharedData;
+import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -48,6 +55,7 @@ public class MainForm extends javax.swing.JFrame {
         btnUser = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
         tbrAboutUs = new javax.swing.JButton();
+        btnChart = new javax.swing.JButton();
         tplMainBoard = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         lblLoginName = new javax.swing.JLabel();
@@ -136,6 +144,18 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(tbrAboutUs);
+
+        btnChart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/qlsvapp/icons/Login-icon-32.png"))); // NOI18N
+        btnChart.setText("Thống kê");
+        btnChart.setFocusable(false);
+        btnChart.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnChart.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnChart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChartActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnChart);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -243,7 +263,7 @@ public class MainForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
@@ -344,6 +364,30 @@ public class MainForm extends javax.swing.JFrame {
         }
         tplMainBoard.setSelectedComponent(admin);
     }//GEN-LAST:event_menuUserActionPerformed
+
+    private void btnChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChartActionPerformed
+        DefaultCategoryDataset dcd = new DefaultCategoryDataset();
+        dcd.addValue(7, "điểm TB", "Toán");
+        dcd.addValue(6, "điểm TB", "Tiếng Anh");
+        dcd.addValue(8, "điểm TB", "Tin học");
+        dcd.addValue(5, "điểm TB", "Triết");
+        
+        JFreeChart jchart = ChartFactory.createBarChart(
+                "BIỂU ĐỒ ĐIỂM TRUNG BÌNH",
+                "Môn", "Điểm TB",
+                dcd, PlotOrientation.VERTICAL, false, false, false);
+        
+        CategoryPlot plot = jchart.getCategoryPlot();
+        plot.setRangeGridlinePaint(Color.black);
+        
+        ChartFrame chartFrame = new ChartFrame("Student",jchart,true);
+        chartFrame.setVisible(true);
+        
+        chartFrame.setBounds(200, 90, 1110, 850);
+        chartFrame.setTitle("Biểu đồ thống kê điểm trung bình các môn học");
+        chartFrame.setLocationRelativeTo(null);
+        chartFrame.setResizable(false);
+    }//GEN-LAST:event_btnChartActionPerformed
     
     private void prcessLoginSuccessful(){
         lblRole.setText(SharedData.nguoiDangNhapDung.getQuyen());
@@ -355,10 +399,10 @@ public class MainForm extends javax.swing.JFrame {
             btnStudentBig.setEnabled(false);
             menuUser.setEnabled(false);
             btnUser.setEnabled(false);
-        }else if(SharedData.nguoiDangNhapDung.getQuyen().equals("Đào tạo")){
+        }else if(SharedData.nguoiDangNhapDung.getQuyen().equals("Admin")){
             menuStudent.setEnabled(true);
-            menuPoint.setEnabled(false);
-            btnPoint.setEnabled(false);
+            menuPoint.setEnabled(true);
+            btnPoint.setEnabled(true);
             btnStudentBig.setEnabled(true);
             menuUser.setEnabled(true);
             btnUser.setEnabled(true);
@@ -400,6 +444,7 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChart;
     private javax.swing.JButton btnPoint;
     private javax.swing.JButton btnStudentBig;
     private javax.swing.JButton btnUser;
