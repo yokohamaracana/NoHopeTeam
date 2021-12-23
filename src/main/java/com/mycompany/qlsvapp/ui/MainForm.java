@@ -288,9 +288,13 @@ public class MainForm extends javax.swing.JFrame {
         LoginDialog loginDialog = new LoginDialog(this,true);
         loginDialog.setVisible(true);
         prcessLoginSuccessful();
+        mpoint = null;
+        mstudent = null;
+        admin = null;
     }//GEN-LAST:event_tbrLogoutActionPerformed
 
     private void menuPointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPointActionPerformed
+        
         if(mpoint == null){
         mpoint = new Point();
         ImageIcon icon = new ImageIcon(getClass().
