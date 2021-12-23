@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 public class MainForm extends javax.swing.JFrame {
     private Student mstudent;
     private Point mpoint;
+    private Admin admin;
     /**
      * Creates new form MainForm
      */
@@ -44,6 +45,7 @@ public class MainForm extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JToolBar.Separator();
         btnStudentBig = new javax.swing.JButton();
         btnPoint = new javax.swing.JButton();
+        btnUser = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
         tbrAboutUs = new javax.swing.JButton();
         tplMainBoard = new javax.swing.JTabbedPane();
@@ -57,6 +59,7 @@ public class MainForm extends javax.swing.JFrame {
         mnuStudent = new javax.swing.JMenu();
         menuStudent = new javax.swing.JMenuItem();
         menuPoint = new javax.swing.JMenuItem();
+        menuUser = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         menuAboutUs = new javax.swing.JMenuItem();
@@ -108,6 +111,18 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(btnPoint);
+
+        btnUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/qlsvapp/icons/Person-Male-Light-icon-24.png"))); // NOI18N
+        btnUser.setText("Quản lý user");
+        btnUser.setFocusable(false);
+        btnUser.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnUser.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUserActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnUser);
         jToolBar1.add(jSeparator4);
 
         tbrAboutUs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/qlsvapp/icons/Actions-help-about-icon-32.png"))); // NOI18N
@@ -195,6 +210,16 @@ public class MainForm extends javax.swing.JFrame {
         });
         mnuStudent.add(menuPoint);
 
+        menuUser.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        menuUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/qlsvapp/icons/Person-Male-Light-icon-16.png"))); // NOI18N
+        menuUser.setText("Quản Lý User");
+        menuUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuUserActionPerformed(evt);
+            }
+        });
+        mnuStudent.add(menuUser);
+
         jMenuBar1.add(mnuStudent);
 
         jMenu3.setText("Trợ giúp");
@@ -218,7 +243,7 @@ public class MainForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
@@ -301,6 +326,20 @@ public class MainForm extends javax.swing.JFrame {
         dialog.setVisible(true);
         prcessLoginSuccessful();
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
+        menuUserActionPerformed(evt);
+    }//GEN-LAST:event_btnUserActionPerformed
+
+    private void menuUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuUserActionPerformed
+        if(admin == null){
+            admin = new Admin();
+            ImageIcon icon = new ImageIcon(getClass().
+                getResource("/com/mycompany/qlsvapp/icons/Person-Male-Light-icon-16.png"));
+            tplMainBoard.addTab("Quản Lý User",icon,admin,"Quản Lý User");
+        }
+        tplMainBoard.setSelectedComponent(admin);
+    }//GEN-LAST:event_menuUserActionPerformed
     
     private void prcessLoginSuccessful(){
         lblRole.setText(SharedData.nguoiDangNhapDung.getQuyen());
@@ -310,11 +349,15 @@ public class MainForm extends javax.swing.JFrame {
             menuPoint.setEnabled(true);
             btnPoint.setEnabled(true);
             btnStudentBig.setEnabled(false);
+            menuUser.setEnabled(false);
+            btnUser.setEnabled(false);
         }else if(SharedData.nguoiDangNhapDung.getQuyen().equals("Đào tạo")){
             menuStudent.setEnabled(true);
             menuPoint.setEnabled(false);
             btnPoint.setEnabled(false);
             btnStudentBig.setEnabled(true);
+            menuUser.setEnabled(true);
+            btnUser.setEnabled(true);
         }
     }
     /**
@@ -355,6 +398,7 @@ public class MainForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPoint;
     private javax.swing.JButton btnStudentBig;
+    private javax.swing.JButton btnUser;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -371,6 +415,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenu menuLogout;
     private javax.swing.JMenuItem menuPoint;
     private javax.swing.JMenuItem menuStudent;
+    private javax.swing.JMenuItem menuUser;
     private javax.swing.JMenuItem mnuFile_Exit;
     private javax.swing.JMenu mnuStudent;
     private javax.swing.JButton tbrAboutUs;
