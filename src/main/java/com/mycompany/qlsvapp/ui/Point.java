@@ -34,7 +34,7 @@ public class Point extends javax.swing.JPanel {
      */
     public Point() {
         initComponents();
-        
+        txtName.setEditable(false);
 	initTable();
 	
 	loadBangDiem();
