@@ -24,7 +24,7 @@ public class Admin extends javax.swing.JPanel {
      */
     public Admin() {
         initComponents();
-        
+        txtQuyen.setEditable(false);
         initTable();
         
         loadDataToTable();
@@ -303,23 +303,7 @@ public class Admin extends javax.swing.JPanel {
     }//GEN-LAST:event_btnNhapmoiActionPerformed
 
     private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked
-        try {
-            int row = tblUser.getSelectedRow();
 
-            if(row >= 0){
-                String id = (String) tblUser.getValueAt(row, 0);
-                NguoiDungDao dao = new NguoiDungDao();
-                NguoiDung nd = dao.findById(id);
-                if(nd != null){
-                    txtTaikhoan.setText(nd.getTenDangNhap());
-                    txtpassword.setText(nd.getMatKhau());
-                    txtQuyen.setText(nd.getQuyen());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            MessageDialog.showErrorDialog(parentForm, e.getMessage(), "Lỗi");
-        }
     }//GEN-LAST:event_tblUserMouseClicked
 
 
